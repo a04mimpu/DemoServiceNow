@@ -66,7 +66,7 @@
 <script>
     const params = new URLSearchParams(window.location.search);
     const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
-    const user = decodeURIComponent(params.get("user") || "Okänd användare");
+    const user = decodeURIComponent(params.get("användare") || "Okänd användare");
     const descriptionBox = document.getElementById("descriptionBox");
 
     descriptionBox.textContent = beskrivning ? beskrivning : "Ingen beskrivning mottagen.";
