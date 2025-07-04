@@ -1,34 +1,101 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <title>Bekräftelse</title>
+    <meta charset="UTF-8">
+    <title>Beställning bekräftad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: #28a745;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+        }
+        .main-content {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .description-box {
+            font-size: 16px;
+            padding: 15px;
+            background: #eef2f5;
+            border-radius: 5px;
+            margin: 20px 0;
+            word-break: break-word;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            text-decoration: none;
+            margin: 10px;
+        }
+        .button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
-  <h1>Bekräftelse</h1>
-  <p><strong>Mottagare:</strong> <span id="mottagareField">-</span></p>
-  <p><strong>Leveransadress:</strong> <span id="leveransadressField">-</span></p>
-  <p><strong>Chef:</strong> <span id="chefField">-</span></p>
-  <p><strong>Produktkategori:</strong> <span id="kategoriField">-</span></p>
-  <p><strong>Ansvarskod:</strong> <span id="ansvarskodField">-</span></p>
-  <p><strong>Verksamhetskod:</strong> <span id="verksamhetskodField">-</span></p>
+<nav>
+    Beställning bekräftad
+</nav>
 
-  <script>
+<div class="main-content">
+    <h2>Tack för din beställning!</h2>
+    <p>Här är en sammanställning av din beställning:</p>
+    <div id="descriptionBox" class="description-box">Ingen beskrivning mottagen.</div>
+
+    <button id="sendMailBtn" class="button">Skicka order till chef</button>
+    <a href="index.html" class="button">Tillbaka till startsidan</a>
+</div>
+
+<script>
     const params = new URLSearchParams(window.location.search);
     const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
+    const descriptionBox = document.getElementById("descriptionBox");
 
-const mottagareMatch = beskrivning.match(/Mottagare:\s*([^\n;]+)/i)
-    const getValue = (label) => {
-      const match = beskrivning.match(new RegExp(label + ":\\s*([^\\n]+)", "i"));
-      return match ? match[1].trim() : "-";
-    };
+    if (beskrivning) {
+        descriptionBox.textContent = beskrivning;
+    } else {
+        descriptionBox.textContent = "Ingen beskrivning mottagen.";
+    }
 
-    document.getElementById("mottagareField").textContent = getValue("Mottagare");
-    document.getElementById("leveransadressField").textContent = getValue("Leveransadress");
-    document.getElementById("chefField").textContent = getValue("Chef");
-    document.getElementById("kategoriField").textContent = getValue("Produktkategori");
-    document.getElementById("ansvarskodField").textContent = getValue("Ansvarskod");
-    document.getElementById("verksamhetskodField").textContent = getValue("Verksamhetskod");
-  </script>
+    document.getElementById("sendMailBtn").addEventListener("click", () => {
+        const mottagare = "chefensnamn@foretag.se"; // Byt ut till riktig mailadress
+        const ämne = encodeURIComponent("Orderbekräftelse: Ny beställning");
+        const body = encodeURIComponent(
+`Hej,
+
+Här är sammanfattningen av beställningen:
+
+${beskrivning}
+
+Vänligen bekräfta mottagandet av denna beställning.
+
+Med vänliga hälsningar,
+[Ditt Namn]`
+        );
+
+        window.location.href = `mailto:${mottagare}?subject=${ämne}&body=${body}`;
+    });
+</script>
 </body>
 </html>
