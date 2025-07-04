@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -25,50 +24,43 @@
 <div id="miniCart">🛒 0</div>
 
 <div class="main-content">
-    <h2>Sammanfattning av beställning</h2>
-    <ul id="cartList"><li>Inga varor angivna</li></ul>
+    <h2>Artiklar för iPhone 15</h2>
+    <ul id="cartList"><li>Laddar artiklar...</li></ul>
     <button id="continueBtn" class="continue-btn">Fortsätt</button>
 </div>
 
 <script>
 const params = new URLSearchParams(window.location.search);
-const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
 const anvandare = decodeURIComponent(params.get("anvandare") || "");
+const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
 const cartList = document.getElementById("cartList");
 const miniCart = document.getElementById("miniCart");
 
-if (beskrivning) {
-    const filtrerade = [];
-    const delar = beskrivning.split(";");
-    delar.forEach(del => {
-        del = del.trim();
-        if (
-            del.toLowerCase().includes("vara") ||
-            del.toLowerCase().includes("artikel")
-        ) {
-            filtrerade.push(del);
+fetch('artiklar.json')
+    .then(response => response.json())
+    .then(data => {
+        const filtrerade = data.artiklar
+            .filter(item => item.produkt.toLowerCase() === "iphone 15")
+            .map(item => "Art.nr: " + item.artikelnummer);
+
+        cartList.innerHTML = "";
+        if (filtrerade.length > 0) {
+            filtrerade.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                cartList.appendChild(li);
+            });
+            miniCart.textContent = "🛒 " + filtrerade.length;
+        } else {
+            cartList.innerHTML = "<li>Inga artiklar hittades för iPhone 15.</li>";
+            miniCart.textContent = "🛒 0";
         }
-        const artikelnummerMatch = del.match(/\b\d{5,}\b/g);
-        if (artikelnummerMatch) {
-            artikelnummerMatch.forEach(nummer => filtrerade.push("Art.nr: " + nummer));
-        }
-    });
-    cartList.innerHTML = "";
-    if (filtrerade.length > 0) {
-        filtrerade.forEach(item => {
-            const li = document.createElement("li");
-            li.textContent = item;
-            cartList.appendChild(li);
-        });
-        miniCart.textContent = `🛒 ${filtrerade.length}`;
-    } else {
-        cartList.innerHTML = "<li>Inga artiklar angivna.</li>";
+    })
+    .catch(error => {
+        cartList.innerHTML = "<li>Kunde inte ladda artiklar.json. Kontrollera att filen finns.</li>";
         miniCart.textContent = "🛒 0";
-    }
-} else {
-    cartList.innerHTML = "<li>Inga artiklar angivna.</li>";
-    miniCart.textContent = "🛒 0";
-}
+        console.error(error);
+    });
 
 document.getElementById("continueBtn").addEventListener("click", () => {
     window.location.href = `komplettera-bestallning.html?beskrivning=${encodeURIComponent(beskrivning)}&anvandare=${encodeURIComponent(anvandare)}`;
