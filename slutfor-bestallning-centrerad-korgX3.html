@@ -69,26 +69,20 @@
     const artikel = beskrivning ? beskrivning : "";
     const cartList = document.getElementById("cartList");
 
-    console.log("🔎 API URL: http://jsonblob.com/api/jsonBlob/1390604544760799232");
-
     if (artikel) {
-        fetch('http://jsonblob.com/api/jsonBlob/1390604544760799232')
-            .then(res => res.json())
-            .then(data => {
-                const varor = data.varor;
-                console.log(varor); // Kontroll i konsolen
+        // Lokal JSON-data istället för fetch för GitHub Pages
+        const varor = [
+            { "benämning": "iPhone 15", "artikelnummer": "IP15123" },
+            { "benämning": "Laddkabel USB-C", "artikelnummer": "USB-C456" },
+            { "benämning": "Skärmskydd", "artikelnummer": "SKYDD789" }
+        ];
 
-                cartList.innerHTML = "";
-                varor.forEach(item => {
-                    const li = document.createElement("li");
-                    li.textContent = `${item.benämning} (Art.nr: ${item.artikelnummer})`;
-                    cartList.appendChild(li);
-                });
-            })
-            .catch(err => {
-                console.error('Fel vid hämtning:', err);
-                cartList.innerHTML = `<p class="error">Kunde inte hämta varor</p>`;
-            });
+        cartList.innerHTML = "";
+        varor.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = `${item.benämning} (Art.nr: ${item.artikelnummer})`;
+            cartList.appendChild(li);
+        });
     } else {
         cartList.innerHTML = `<p class="error">Ingen artikel angiven i beskrivning</p>`;
     }
