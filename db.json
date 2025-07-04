@@ -1,0 +1,39 @@
+{
+  "varor": [
+    {
+      "artikelnummer": "1001",
+      "benämning": "iPhone 15 128GB",
+      "id": "52bf"
+    },
+    {
+      "artikelnummer": "1002",
+      "benämning": "USB-C Laddare",
+      "id": "a79b"
+    },
+    {
+      "artikelnummer": "1003",
+      "benämning": "Skärmskydd",
+      "id": "6498"
+    },
+    {
+      "artikelnummer": "1004",
+      "benämning": "Fodral",
+      "id": "055d"
+    },
+    {
+      "artikelnummer": "1005",
+      "benämning": "AppleCare+ 2 år",
+      "id": "91bd"
+    },
+    {
+      "artikelnummer": "2001",
+      "benämning": "Samsung XCover 7 64GB",
+      "id": "c78a"
+    },
+    {
+      "artikelnummer": "2002",
+      "benämning": "Snabbladdare",
+      "id": "055d"
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <title>Slutför beställning</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+    }
+    nav {
+      background-color: #0066cc;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+    .cart-icon {
+      position: relative;
+      cursor: pointer;
+    }
+    .cart-count {
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 8px;
+      font-size: 12px;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+    }
+    .cart-popup {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 30px;
+      background-color: white;
+      color: black;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      min-width: 250px;
+      z-index: 100;
+    }
+    .cart-icon:hover .cart-popup {
+      display: block;
+    }
+    .main-content {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+      padding: 10px;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .continue-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 30px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    .continue-btn:hover {
+      background-color: #0056b3;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div>Slutför beställning</div>
+    <div class="cart-icon">
+      🛒<span class="cart-count" id="cartCount">0</span>
+      <div class="cart-popup" id="cartPopup">Varukorgen är tom</div>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <ul id="cartList"></ul>
+    <button class="continue-btn" id="continueBtn">Fortsätt</button>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
+
+    const match = beskrivning.match(/Vara:\s*([^\n;]+)/i);
+    const artikel = match ? match[1].trim().replace(/\s+/g, " ") : "";
+
+    const cartList = document.getElementById("cartList");
+    const cartPopup = document.getElementById("cartPopup");
+    const cartCount = document.getElementById("cartCount");
+
+    if (artikel) {
+      const apiUrl = `http://localhost:3001/Iphone15`;
+
+      console.log("🔎 API URL:", apiUrl);
+
+      fetch(apiUrl)
+        .then(res => {
+          if (!res.ok) throw new Error("Kunde inte hämta artiklar");
+          return res.json();
+        })
+        .then(data => {
+          cartCount.textContent = data.length;
+          cartList.innerHTML = "";
+          cartPopup.innerHTML = `<strong>Varukorg:</strong><ul>`;
+
+          data.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = `${item.benämning} (Art.nr: ${item.artikelnummer})`;
+            cartList.appendChild(li);
+            cartPopup.innerHTML += `<li>${item.benämning}</li>`;
+          });
+
+          cartPopup.innerHTML += `</ul>`;
+        })
+        .catch(error => {
+          console.error("Fel:", error);
+          cartList.innerHTML = `<p class="error">Kunde inte hämta varor</p>`;
+          cartPopup.innerHTML = "Fel vid hämtning";
+        });
+    } else {
+      cartList.innerHTML = `<p class="error">Ingen artikel angiven i beskrivning</p>`;
+    }
+
+    document.getElementById("continueBtn").addEventListener("click", () => {
+      window.location.href = `komplettera-bestallning.html?beskrivning=${encodeURIComponent(beskrivning)}`;
+    });
+  </script>
+</body>
+</html>
