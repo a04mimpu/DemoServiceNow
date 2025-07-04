@@ -1,0 +1,28 @@
+{
+    "artiklar": [
+        {
+            "produkt": "iPhone 15",
+            "artikelnummer": "151515"
+        },
+        {
+            "produkt": "iPhone 15",
+            "artikelnummer": "161616"
+        },
+        {
+            "produkt": "iPhone 15",
+            "artikelnummer": "171717"
+        },
+        {
+            "produkt": "AirPods",
+            "artikelnummer": "212121"
+        },
+        {
+            "produkt": "AirPods",
+            "artikelnummer": "232323"
+        },
+        {
+            "produkt": "MacBook",
+            "artikelnummer": "313131"
+        }
+    ]
+}
