@@ -63,21 +63,23 @@
     <a href="index.html" class="button">Tillbaka till startsidan</a>
 </div>
 
+
+
+    
 <script>
-    const params = new URLSearchParams(window.location.search);
-    const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
-    const anvandare = decodeURIComponent(params.get("anvandare") || "Okänd användare");
-    const descriptionBox = document.getElementById("descriptionBox");
+const params = new URLSearchParams(window.location.search);
+const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
+const anvandare = decodeURIComponent(params.get("anvandare") || "Okänd användare");
 
-    descriptionBox.textContent = beskrivning ? beskrivning : "Ingen beskrivning mottagen.";
+document.getElementById("descriptionBox").textContent = beskrivning ? beskrivning : "Ingen beskrivning mottagen.";
 
-    document.getElementById("sendMailBtn").addEventListener("click", () => {
-        const mottagare = "chefensnamn@foretag.se"; // Ändra till aktuell chefmail
-        const ämne = encodeURIComponent("Orderbekräftelse: Ny beställning");
-        const body = encodeURIComponent(
+document.getElementById("sendMailBtn").addEventListener("click", () => {
+    const mottagare = "chefensnamn@foretag.se"; // Ändra till aktuell chefmail
+    const ämne = encodeURIComponent("Orderbekräftelse: Ny beställning");
+    const body = encodeURIComponent(
 `Hej,
 
-Vi har mottagit ett ärende från ${user}.
+Vi har mottagit ett ärende från ${anvandare}.
 
 Här är sammanfattningen av beställningen:
 
@@ -87,9 +89,10 @@ Vänligen bekräfta mottagandet av denna beställning.
 
 Med vänliga hälsningar,
 [Ditt Namn]`
-        );
-        window.location.href = `mailto:${mottagare}?subject=${ämne}&body=${body}`;
-    });
+    );
+    window.location.href = `mailto:${mottagare}?subject=${ämne}&body=${body}`;
+});
 </script>
+
 </body>
 </html>
