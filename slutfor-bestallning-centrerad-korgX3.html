@@ -16,6 +16,11 @@
             justify-content: space-between;
             align-items: center;
             color: white;
+            font-size: 18px;
+        }
+        .cart-icon {
+            cursor: pointer;
+            font-size: 20px;
         }
         .main-content {
             max-width: 800px;
@@ -56,6 +61,9 @@
 <body>
 <nav>
     <div>Slutför beställning</div>
+    <div id="cartIcon" class="cart-icon">
+        🛒 <span id="cartCount">0</span>
+    </div>
 </nav>
 
 <div class="main-content">
@@ -69,14 +77,14 @@
     const artikel = beskrivning ? beskrivning : "";
     const cartList = document.getElementById("cartList");
 
-    if (artikel) {
-        // Lokal JSON-data istället för fetch för GitHub Pages
-        const varor = [
-            { "benämning": "iPhone 15", "artikelnummer": "IP15123" },
-            { "benämning": "Laddkabel USB-C", "artikelnummer": "USB-C456" },
-            { "benämning": "Skärmskydd", "artikelnummer": "SKYDD789" }
-        ];
+    // Lokal JSON-data för GitHub Pages
+    const varor = [
+        { "benämning": "iPhone 15", "artikelnummer": "IP15123" },
+        { "benämning": "Laddkabel USB-C", "artikelnummer": "USB-C456" },
+        { "benämning": "Skärmskydd", "artikelnummer": "SKYDD789" }
+    ];
 
+    if (artikel) {
         cartList.innerHTML = "";
         varor.forEach(item => {
             const li = document.createElement("li");
@@ -86,6 +94,14 @@
     } else {
         cartList.innerHTML = `<p class="error">Ingen artikel angiven i beskrivning</p>`;
     }
+
+    // Uppdatera varukorgsikonen med antal varor
+    document.getElementById("cartCount").textContent = varor.length;
+
+    // Klick på varukorgsikonen (kan peka på en varukorgssida eller refresh)
+    document.getElementById("cartIcon").addEventListener("click", () => {
+        window.location.href = "slutför-beställning.html";
+    });
 
     document.getElementById("continueBtn").addEventListener("click", () => {
         window.location.href = `komplettera-bestallning.html?beskrivning=${encodeURIComponent(beskrivning)}`;
