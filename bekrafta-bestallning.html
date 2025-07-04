@@ -1,7 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beställning bekräftad</title>
     <style>
         body {
@@ -13,23 +15,21 @@
         nav {
             background-color: #28a745;
             padding: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            text-align: center;
             color: white;
-            font-size: 18px;
+            font-size: 20px;
+            font-weight: bold;
         }
         .main-content {
             max-width: 600px;
             margin: 40px auto;
-            padding: 20px;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
             text-align: center;
         }
         .description-box {
-            font-size: 16px;
             padding: 15px;
             background: #eef2f5;
             border-radius: 5px;
@@ -37,7 +37,7 @@
             word-break: break-word;
         }
         .button {
-            display: inline-block;
+            margin-top: 10px;
             padding: 12px 30px;
             background-color: #28a745;
             color: white;
@@ -46,7 +46,7 @@
             cursor: pointer;
             font-size: 18px;
             text-decoration: none;
-            margin: 10px;
+            display: inline-block;
         }
         .button:hover {
             background-color: #218838;
@@ -54,15 +54,11 @@
     </style>
 </head>
 <body>
-<nav>
-    Beställning bekräftad
-</nav>
-
+<nav>Beställning bekräftad</nav>
 <div class="main-content">
     <h2>Tack för din beställning!</h2>
     <p>Här är en sammanställning av din beställning:</p>
     <div id="descriptionBox" class="description-box">Ingen beskrivning mottagen.</div>
-
     <button id="sendMailBtn" class="button">Skicka order till chef</button>
     <a href="index.html" class="button">Tillbaka till startsidan</a>
 </div>
@@ -70,19 +66,18 @@
 <script>
     const params = new URLSearchParams(window.location.search);
     const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
+    const user = decodeURIComponent(params.get("user") || "Okänd användare");
     const descriptionBox = document.getElementById("descriptionBox");
 
-    if (beskrivning) {
-        descriptionBox.textContent = beskrivning;
-    } else {
-        descriptionBox.textContent = "Ingen beskrivning mottagen.";
-    }
+    descriptionBox.textContent = beskrivning ? beskrivning : "Ingen beskrivning mottagen.";
 
     document.getElementById("sendMailBtn").addEventListener("click", () => {
-        const mottagare = "chefensnamn@foretag.se"; // Byt ut till riktig mailadress
+        const mottagare = "chefensnamn@foretag.se"; // Ändra till aktuell chefmail
         const ämne = encodeURIComponent("Orderbekräftelse: Ny beställning");
         const body = encodeURIComponent(
 `Hej,
+
+Vi har mottagit ett ärende från ${user}.
 
 Här är sammanfattningen av beställningen:
 
@@ -93,7 +88,6 @@ Vänligen bekräfta mottagandet av denna beställning.
 Med vänliga hälsningar,
 [Ditt Namn]`
         );
-
         window.location.href = `mailto:${mottagare}?subject=${ämne}&body=${body}`;
     });
 </script>
