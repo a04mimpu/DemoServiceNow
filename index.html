@@ -135,7 +135,9 @@
   document.getElementById("submitProceedo").addEventListener("click", () => {
     const description = document.getElementById("description").value;
     const encoded = encodeURIComponent(description);
-    window.location.href = `slutfor-bestallning-centrerad-korgX3.html?beskrivning=${encoded}`;
+    const anvandare = document.getElementById("user").value;
+window.location.href = `slutfor-bestallning-centrerad-korgX3.html?beskrivning=${encodedDescription}&anvandare=${encodeURIComponent(anvandare)}`;
+
   });
 </script>
 
