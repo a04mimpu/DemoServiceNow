@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -5,86 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slutför beställning</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
-            margin: 0;
-            padding: 0;
-        }
-        nav {
-            background-color: #0066cc;
-            padding: 15px;
-            text-align: center;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .main-content {
-            max-width: 600px;
-            margin: 40px auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 20px;
-            text-align: center;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            margin: 10px 0;
-            padding: 10px;
-            background: #eef2f5;
-            border-radius: 5px;
-        }
-        .continue-btn {
-            margin-top: 20px;
-            padding: 12px 30px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-        }
-        .continue-btn:hover {
-            background-color: #0056b3;
-        }
+        body {font-family: Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 0;}
+        nav {background-color: #0066cc; padding: 15px; text-align: center; color: white; font-size: 20px;}
+        .main-content {max-width: 600px; margin: 40px auto; background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;}
+        .continue-btn {margin-top: 20px; padding: 12px 30px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;}
+        .continue-btn:hover {background-color: #0056b3;}
     </style>
 </head>
 <body>
 <nav>Slutför beställning</nav>
 <div class="main-content">
-    <ul id="cartList"></ul>
-    <button class="continue-btn" id="continueBtn">Fortsätt</button>
+    <p>Kontrollera dina valda varor och fortsätt.</p>
+    <button id="continueBtn" class="continue-btn">Fortsätt</button>
 </div>
 
 <script>
-    const params = new URLSearchParams(window.location.search);
-    const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
-    const anvandare = decodeURIComponent(params.get("anvandare") || "");
-    const cartList = document.getElementById("cartList");
-
-    const varor = [
-        { "benämning": "iPhone 15", "artikelnummer": "IP15123" },
-        { "benämning": "Laddkabel USB-C", "artikelnummer": "USB-C456" },
-        { "benämning": "Skärmskydd", "artikelnummer": "SKYDD789" }
-    ];
-
-    if (beskrivning) {
-        varor.forEach(item => {
-            const li = document.createElement("li");
-            li.textContent = `${item.benämning} (Art.nr: ${item.artikelnummer})`;
-            cartList.appendChild(li);
-        });
-    } else {
-        cartList.innerHTML = "<li>Ingen artikel angiven.</li>";
-    }
-
-    document.getElementById("continueBtn").addEventListener("click", () => {
-        window.location.href = `komplettera-bestallning.html?beskrivning=${encodeURIComponent(beskrivning)}&user=${encodeURIComponent(user)}`;
-    });
+const params = new URLSearchParams(window.location.search);
+const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
+const anvandare = decodeURIComponent(params.get("anvandare") || "");
+document.getElementById("continueBtn").addEventListener("click", () => {
+    window.location.href = `komplettera-bestallning.html?beskrivning=${encodeURIComponent(beskrivning)}&anvandare=${encodeURIComponent(anvandare)}`;
+});
 </script>
 </body>
 </html>
