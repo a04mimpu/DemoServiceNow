@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slutför beställning</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f6f8;
             margin: 0;
+            padding: 0;
         }
         nav {
             background-color: #0066cc;
             padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-align: center;
             color: white;
-            font-size: 18px;
-        }
-        .cart-icon {
-            cursor: pointer;
             font-size: 20px;
+            font-weight: bold;
         }
         .main-content {
-            max-width: 800px;
+            max-width: 600px;
             margin: 40px auto;
-            padding: 0 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
             text-align: center;
         }
         ul {
@@ -33,14 +33,12 @@
             padding: 0;
         }
         li {
-            margin-bottom: 10px;
+            margin: 10px 0;
             padding: 10px;
-            background: white;
+            background: #eef2f5;
             border-radius: 5px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
         }
         .continue-btn {
-            display: inline-block;
             margin-top: 20px;
             padding: 12px 30px;
             background-color: #007bff;
@@ -53,19 +51,10 @@
         .continue-btn:hover {
             background-color: #0056b3;
         }
-        .error {
-            color: red;
-        }
     </style>
 </head>
 <body>
-<nav>
-    <div>Slutför beställning</div>
-    <div id="cartIcon" class="cart-icon">
-        🛒 <span id="cartCount">0</span>
-    </div>
-</nav>
-
+<nav>Slutför beställning</nav>
 <div class="main-content">
     <ul id="cartList"></ul>
     <button class="continue-btn" id="continueBtn">Fortsätt</button>
@@ -74,37 +63,27 @@
 <script>
     const params = new URLSearchParams(window.location.search);
     const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
-    const artikel = beskrivning ? beskrivning : "";
+    const user = decodeURIComponent(params.get("user") || "");
     const cartList = document.getElementById("cartList");
 
-    // Lokal JSON-data för GitHub Pages
     const varor = [
         { "benämning": "iPhone 15", "artikelnummer": "IP15123" },
         { "benämning": "Laddkabel USB-C", "artikelnummer": "USB-C456" },
         { "benämning": "Skärmskydd", "artikelnummer": "SKYDD789" }
     ];
 
-    if (artikel) {
-        cartList.innerHTML = "";
+    if (beskrivning) {
         varor.forEach(item => {
             const li = document.createElement("li");
             li.textContent = `${item.benämning} (Art.nr: ${item.artikelnummer})`;
             cartList.appendChild(li);
         });
     } else {
-        cartList.innerHTML = `<p class="error">Ingen artikel angiven i beskrivning</p>`;
+        cartList.innerHTML = "<li>Ingen artikel angiven.</li>";
     }
 
-    // Uppdatera varukorgsikonen med antal varor
-    document.getElementById("cartCount").textContent = varor.length;
-
-    // Klick på varukorgsikonen (kan peka på en varukorgssida eller refresh)
-    document.getElementById("cartIcon").addEventListener("click", () => {
-        window.location.href = "slutför-beställning.html";
-    });
-
     document.getElementById("continueBtn").addEventListener("click", () => {
-        window.location.href = `komplettera-bestallning.html?beskrivning=${encodeURIComponent(beskrivning)}`;
+        window.location.href = `komplettera-bestallning.html?beskrivning=${encodeURIComponent(beskrivning)}&user=${encodeURIComponent(user)}`;
     });
 </script>
 </body>
