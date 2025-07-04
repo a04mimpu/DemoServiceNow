@@ -58,17 +58,19 @@
     <button id="finishBtn" class="continue-btn">Slutför beställning</button>
 </div>
 
+
 <script>
-    const params = new URLSearchParams(window.location.search);
-    const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
-    const anvandare = decodeURIComponent(params.get("anvandare") || "");
-    const descriptionBox = document.getElementById("descriptionBox");
+const params = new URLSearchParams(window.location.search);
+const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
+const anvandare = decodeURIComponent(params.get("anvandare") || ""); // SE TILL ATT DETTA FINNS
 
-    descriptionBox.textContent = beskrivning ? beskrivning : "Ingen beskrivning mottagen.";
+const descriptionBox = document.getElementById("descriptionBox");
+descriptionBox.textContent = beskrivning ? beskrivning : "Ingen beskrivning mottagen.";
 
-    document.getElementById("finishBtn").addEventListener("click", () => {
-        window.location.href = `bekrafta-bestallning.html?beskrivning=${encodeURIComponent(beskrivning)}&user=${encodeURIComponent(user)}`;
-    });
+document.getElementById("finishBtn").addEventListener("click", () => {
+    window.location.href = `bekrafta-bestallning.html?beskrivning=${encodeURIComponent(beskrivning)}&anvandare=${encodeURIComponent(anvandare)}`;
+});
 </script>
+
 </body>
 </html>
