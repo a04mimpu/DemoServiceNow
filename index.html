@@ -79,7 +79,6 @@ document.getElementById("submitProceedo").addEventListener("click", () => {
     const description = document.getElementById("description").value;
     const anvandare = document.getElementById("user").value;
     const manager = document.getElementById("manager").value;
-    const updatedDescription = description + "; Ansvarig chef: " + manager;
 
     window.location.href = `slutfor-bestallning-centrerad-korgX3.html?beskrivning=${encodeURIComponent(updatedDescription)}&anvandare=${encodeURIComponent(anvandare)}`;
 });
