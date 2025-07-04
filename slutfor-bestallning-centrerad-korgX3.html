@@ -39,15 +39,18 @@ const miniCart = document.getElementById("miniCart");
 
 if (beskrivning) {
     const filtrerade = [];
-    beskrivning.split(";").forEach(del => {
+    const delar = beskrivning.split(";");
+    delar.forEach(del => {
         del = del.trim();
         if (
             del.toLowerCase().includes("vara") ||
-            del.toLowerCase().includes("artikel") ||
-            del.toLowerCase().includes("art.nr") ||
-            del.match(/\\d{5,}/) // fånga ev. artikelnummer
+            del.toLowerCase().includes("artikel")
         ) {
             filtrerade.push(del);
+        }
+        const artikelnummerMatch = del.match(/\b\d{5,}\b/g);
+        if (artikelnummerMatch) {
+            artikelnummerMatch.forEach(nummer => filtrerade.push("Art.nr: " + nummer));
         }
     });
     cartList.innerHTML = "";
@@ -67,9 +70,8 @@ if (beskrivning) {
     miniCart.textContent = "🛒 0";
 }
 
-
 document.getElementById("continueBtn").addEventListener("click", () => {
-    window.location.href = `bekrafta-bestallning.html?beskrivning=${encodeURIComponent(beskrivning)}&anvandare=${encodeURIComponent(anvandare)}`;
+    window.location.href = `komplettera-bestallning.html?beskrivning=${encodeURIComponent(beskrivning)}&anvandare=${encodeURIComponent(anvandare)}`;
 });
 </script>
 </body>
