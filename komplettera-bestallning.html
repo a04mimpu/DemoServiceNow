@@ -1,54 +1,74 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <title>Komplettera beställning</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komplettera beställning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: #0066cc;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .main-content {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        .description-box {
+            padding: 15px;
+            background: #eef2f5;
+            border-radius: 5px;
+            margin: 20px 0;
+            word-break: break-word;
+        }
+        .continue-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .continue-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-  <h1>Komplettera beställning</h1>
-  <label>Produktkategori:</label><input id="produktkategori" readonly><br>
-  <label>Ansvarskod:</label><input id="ansvarskod" readonly><br>
-  <label>Verksamhetskod:</label><input id="verksamhetskod" readonly><br>
-  <button id="slutforBtn">Slutför</button>
+<nav>Komplettera beställning</nav>
+<div class="main-content">
+    <h2>Sammanfattning av beställning</h2>
+    <div id="descriptionBox" class="description-box">Ingen beskrivning mottagen.</div>
+    <button id="finishBtn" class="continue-btn">Slutför beställning</button>
+</div>
 
-  <script>
+<script>
     const params = new URLSearchParams(window.location.search);
     const beskrivning = decodeURIComponent(params.get("beskrivning") || "");
+    const user = decodeURIComponent(params.get("user") || "");
+    const descriptionBox = document.getElementById("descriptionBox");
 
-    const produktkategoriMatch = beskrivning.match(/Produktkategori:\s*(\d+)/i);
-    const ansvarMatch = beskrivning.match(/Ansvarskod:\s*(\d+)/i);
-    const verksamhetsMatch = beskrivning.match(/Verksamhetskod:\s*(\d+)/i);
-    const mottagareMatch = beskrivning.match(/Mottagare:\s*([^\n;]+)/i);
-    const adressMatch = beskrivning.match(/Leveransadress:\s*([^\n;]+)/i);
-    const chefMatch = beskrivning.match(/Chef:\s*([^\n;]+)/i);
+    descriptionBox.textContent = beskrivning ? beskrivning : "Ingen beskrivning mottagen.";
 
-    const produktkategori = produktkategoriMatch ? produktkategoriMatch[1] : "";
-    const ansvarskod = ansvarMatch ? ansvarMatch[1] : "";
-    const verksamhetskod = verksamhetsMatch ? verksamhetsMatch[1] : "";
-    const mottagare = mottagareMatch ? mottagareMatch[1] : "";
-    const leveransadress = adressMatch ? adressMatch[1] : "";
-    const chef = chefMatch ? chefMatch[1] : "";
-
-    document.getElementById("produktkategori").value = produktkategori;
-    document.getElementById("ansvarskod").value = ansvarskod;
-    document.getElementById("verksamhetskod").value = verksamhetskod;
-
-    document.getElementById("slutforBtn").addEventListener("click", () => {
-      localStorage.setItem("mottagare", mottagare);
-      localStorage.setItem("leveransadress", leveransadress);
-      localStorage.setItem("chef", chef);
-      localStorage.setItem("produktkategori", produktkategori);
-      localStorage.setItem("ansvarskod", ansvarskod);
-      localStorage.setItem("verksamhetskod", verksamhetskod);
-
-      window.location.href = "bekrafta-bestallning.html?beskrivning=" + encodeURIComponent(beskrivning);
-
+    document.getElementById("finishBtn").addEventListener("click", () => {
+        window.location.href = `bekraftelse.html?beskrivning=${encodeURIComponent(beskrivning)}&user=${encodeURIComponent(user)}`;
     });
-  </script>
-
+</script>
 </body>
 </html>
-
-
-
-<
